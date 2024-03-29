@@ -1,0 +1,9 @@
+{
+  "policies": [
+    {
+    "name": "My Best Policy Ever",
+    "filename": "policy.js",
+    "Description": "policy Description"
+    }
+  ]
+}
