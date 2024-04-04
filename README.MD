@@ -1,6 +1,6 @@
 # JS Policy Builder :book:
 
-Di seguito una breve descrizione del funzionamento dello script che permette l'installazioni di policy javascript all'interno di keyloak.
+Di seguito una breve descrizione del funzionamento dello script che permette l'installazione di policy javascript all'interno di keyloak.
 
 # JavaSrcipt Policies in Keycloak :passport_control:
 In keycloak e' possibile implementare un sistema  __ABAC__ (attribute based access control) per definire in maniera granulare l'accesso alle risorse basandosi sugli attributi dell'utente che ne fa la richiesta.
@@ -20,7 +20,8 @@ if (sede === 'roma') {
 }
 
 ```
-Una policy per essere riconosciuta ha bisogno anche di alcune informazioni aggiuntive, nel nostro caso parliamo della cartella [META-INF](META-INF) che viene gestista dallo script __py__ inserento alla key __devices__ tanti oggetti json tanti quanti sono i file in [policies](policies) in ogni caso, la struttura che va rispettata e' la seguente:
+Una policy per essere riconosciuta ha bisogno anche di alcune informazioni aggiuntive, nel nostro caso parliamo della cartella [META-INF](META-INF) che viene gestista dallo script __py__ inserendo alla key __devices__ tanti oggetti json tanti quanti sono i file in [policies](policies).
+In ogni caso la struttura che va rispettata e' la seguente:
 
 ```json
 {
@@ -35,7 +36,7 @@ Una policy per essere riconosciuta ha bisogno anche di alcune informazioni aggiu
   ]
 }
 ```
-In fase di compilazione inoltre e' bene wricordare di aggiungere la feature __scripts__ per esempio in fase di sviluppo e' possibile startare keycloak tramite:
+In fase di compilazione inoltre, e' bene ricordare di aggiungere la feature __scripts__, per esempio in fase di sviluppo e' possibile startare keycloak tramite:
 ```
 ./bin/kc.sh start-dev --features scripts  
 ```
@@ -48,4 +49,4 @@ dopo aver inserito tutti i file relativi alle policy in js all'interno della car
 ```
 >:warning: in caso di permesso negato basta eseguire il comando  __sudo chmod +x__
 
-Verra' generata una cartella __target__ con al suo interno il file richiesto.
+e verra' generata una cartella __target__ con al suo interno il file richiesto.
