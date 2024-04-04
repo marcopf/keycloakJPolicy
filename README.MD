@@ -35,7 +35,11 @@ Una policy per essere riconosciuta ha bisogno anche di alcune informazioni aggiu
   ]
 }
 ```
-
+In fase di compilazione inoltre e' bene wricordare di aggiungere la feature __scripts__ per esempio in fase di sviluppo e' possibile startare keycloak tramite:
+```
+./bin/kc.sh start-dev --features scripts  
+```
+supponendo di aver gia inserito il file jar relativo alle policy nella cartella providers.
 # Compilazione :rocket:
 
 dopo aver inserito tutti i file relativi alle policy in js all'interno della cartella [policies](policies) basta eseguire il seguente comando:
