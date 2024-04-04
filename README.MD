@@ -1,41 +1,47 @@
-# Javascript Based policies in KEYCLOAK
+# JS Policy Builder :book:
 
-Un semplice promemoria della struttura che permette la creazione di JavaScript based policy in keycloak, in <strong>META-INF/keycloak-scripts.json</strong> sara' presente una struttura del genere, abbastanza autoesplicativa.
+Di seguito una breve descrizione del funzionamento dello script che permette l'installazioni di policy javascript all'interno di keyloak.
 
-```
-{
-  "policies": [
-    {
-    "name": "My Best Policy Ever",
-    "filename": "policy.js",
-    "Description": "policy Description"
-    }
-  ]
-}
-```
-Una volda definiti i parametri desiderati si potra' procedere nello sviluppo della policy vera e propria all'interno del file <strong>policy.js</strong>
-> :warning: <strong>const</strong> e <strong>let</strong> sembrano non essere piu' supportate e' consigliabile dunque procedere con <strong>var</strong>.
+# JavaSrcipt Policies in Keycloak :passport_control:
+In keycloak e' possibile implementare un sistema  __ABAC__ (attribute based access control) per definire in maniera granulare l'accesso alle risorse basandosi sugli attributi dell'utente che ne fa la richiesta.
 
-```
+Questo controllo avviene tramite __policy__ che possono essere inserite in keycloak nella cartella __providers__ per poi essere applicate nel client desiderato tramite il perscorso Authorization > Policies > create_new_policy.
+
+Di seguito un'esempio relativo alla struttura di base di un file js contenente la policy...
+>:warning: all'interno di questo file __let__ e __const__ non sono supportati e' dunque consigliabile l'uso di __var__
+``` js
 var context = $evaluation.getContext();
 var identity = context.getIdentity();
 var attributes = identity.getAttributes();
-var email = attributes.getValue('email').asString(0);
+var sede = attributes.getValue('sede').asString(0);
 
-if (email.endsWith('@keycloak.org')) {
+if (sede === 'roma') {
     $evaluation.grant();
 }
 
 ```
+Una policy per essere riconosciuta ha bisogno anche di alcune informazioni aggiuntive, nel nostro caso parliamo della cartella [META-INF](META-INF) che viene gestista dallo script __py__ inserento alla key __devices__ tanti oggetti json tanti quanti sono i file in [policies](policies) in ogni caso, la struttura che va rispettata e' la seguente:
 
-# Installazione :floppy_disk:
-Una volta definito il codice JavaScript in policy.js si puo' procedere alla generazione del <strong>.jar</strong> tramite ./build.sh (eseguire sudo chmod +x build.sh in caso di mancato permesso).
-Ottenuto il file .jar questo va inserito nella cartella providers di keycloak e il server va "startato" abilitando la feature scripts per esempio da dentro la cartella keycloak basta eseguire
+```json
+{
+  "policies": [
+    //----uno per ogni file in policies
+    {
+      "name": "<nome_policy>",
+      "fileName": "<nome_file>.js",
+      "description": "policy Description"
+    }
+    //-----
+  ]
+}
 ```
-./bin/kc.sh start-dev --features scripts  
-```
-In seguito basta creare un client con il toggle <strong>Authorization</strong> abilitato e nelle impostazioni del client selezionare il tab Authorization e poi Policies, da li potremo inserire la nostra policy che verra' listata tra quelle disponibili, verra' aperto un menu che permette di assegnare un nome e una descrizione, fatto cio' e lasciando il campo code in bianco basta salvare la policy e il codice che avevamo importato appirara'. Il "flow" di registrazione della nuova policy e' simile anche in caso di aggiunta per proteggere l'accesso al <strong>Resource Server</strong>.
 
-# Testing :construction:
-Fatto tutto sara' possibile testare la policy in modo semplice e veloce creando una risorsa in: client_details > Authorization > Resource > Create_resource.
-si potra' cosi aggiungere una policy tramite il link Create permission e in seguito testare tramite il tab Evaluate definendo l'utente e la risorsa con la policy che vogliamo testare
+# Compilazione :rocket:
+
+dopo aver inserito tutti i file relativi alle policy in js all'interno della cartella [policies](policies) basta eseguire il seguente comando:
+```bash
+./build.sh <nome_out_file.jar>
+```
+>:warning: in caso di permesso negato basta eseguire il comando  __sudo chmod +x__
+
+Verra' generata una cartella __target__ con al suo interno il file richiesto.

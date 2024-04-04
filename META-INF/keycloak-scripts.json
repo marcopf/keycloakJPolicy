@@ -1,9 +1,14 @@
 {
   "policies": [
     {
-    "name": "My Best Policy Ever",
-    "fileName": "policy.js",
-    "description": "policy Description"
+      "name": "sample",
+      "fileName": "sample.js",
+      "description": "policy Description"
+    },
+    {
+      "name": "test",
+      "fileName": "test.js",
+      "description": "policy Description"
     }
   ]
 }
